@@ -1,0 +1,60 @@
+# Operating system / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+~$*
+.vscode/
+.idea/
+
+# Python local state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# MATLAB / Simulink generated state
+slprj/
+*.slxc
+*.asv
+*.m~
+
+# Modelica / Dymola / FMU generated artifacts
+~FMUOutput/
+**/~FMUOutput/
+dymosim*
+dsfinal.txt
+dslog.txt
+dsin.txt
+buildlog.txt
+dsmodel.*
+modelDescription.xml
+fmiModelIdentifier.h
+*.fmu
+*.mat
+*.dll
+*.exe
+*.obj
+*.o
+
+# Project data and generated outputs
+logs/
+outputs/
+CT_Model/DATA/
+CT_Model/results/
+CT_Model/results_ct/
+Cali_EIR_BSU_CH1/ChillerData/
+Cali_EIR_BSU_CH1/Result/
+Cali_EIR_BSU_CH1/实测数据/
+
+# Copied/generated calibration inputs in working folders
+Cali_EIR_BSU_CH1/matlab/ChillerData*.txt
+Cali_EIR_BSU_CH1/matlab/ChillerData*.xlsx
+Cali_EIR_BSU_CH1/matlab/Calibration_Results*.xlsx
+Cali_EIR_BSU_CH1/Modelica/ChillerData*.txt
+Cali_EIR_BSU_CH1/Modelica/Data/

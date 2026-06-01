@@ -1,0 +1,28 @@
+project_root: ../..
+outputs_dir: outputs
+tolerance: 0.001
+cases:
+  - equipment: pump
+    equipment_id: CDWP_03
+    candidate: affinity_y3
+    variable: full_cvrmse_pct
+    baseline_csv: E:/VISUAL_code/FMU_Modelica/outputs/pump/auto_model_site_a/full_period_validation_metrics.csv
+    new_csv: outputs/runs/site-a-regression/new_metrics/pump.csv
+  - equipment: chiller
+    equipment_id: DCCP_01
+    candidate: ElectricEIR
+    variable: CVRMSE
+    baseline_csv: E:/VISUAL_code/FMU_Modelica/outputs/comparison/three_type/table4_recalculated.csv
+    new_csv: outputs/runs/site-a-regression/new_metrics/chiller.csv
+  - equipment: cooling_tower
+    equipment_id: CT_03
+    candidate: Merkel
+    variable: CVRMSE_%
+    baseline_csv: E:/VISUAL_code/FMU_Modelica/outputs/cooling_tower/auto_model_site_a_full_period/site_a_full_period_metrics_long.csv
+    new_csv: outputs/runs/site-a-regression/new_metrics/cooling_tower.csv
+  - equipment: heat_exchanger
+    equipment_id: HX_02
+    candidate: PlateEffectivenessNTU
+    variable: CVRMSE
+    baseline_csv: E:/VISUAL_code/FMU_Modelica/outputs/heat_exchanger/validation/site_a_hx_full_period_metrics.csv
+    new_csv: outputs/runs/site-a-regression/new_metrics/heat_exchanger.csv

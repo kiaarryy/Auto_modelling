@@ -1,0 +1,15 @@
+source_csv: cooling_tower/CT_03.csv
+timestamp: DateTime
+columns:
+  inlet_temperature_C:
+    source: CT-1F03-CDWR-WTS.Present Value (°C)
+    scale: 1.0
+    unit: degC
+  outlet_temperature_C:
+    source: CT-1F03-CDWS-WTS.Present Value (°C)
+    scale: 1.0
+    unit: degC
+  power_W:
+    source: P/kw
+    scale: 1000.0
+    unit: W

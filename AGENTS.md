@@ -24,11 +24,12 @@ analysis, or broad CT_Model side work unless the user explicitly asks for it.
 
 - Core workflow scripts live in `E:\VISUAL_code\AUTO_FMU\scripts`.
 - Modelica wrappers live in `E:\VISUAL_code\AUTO_FMU\models`.
-- Generated or copied results live in `E:\VISUAL_code\AUTO_FMU\outputs`.
-- Organized source data live in `E:\VISUAL_code\AUTO_FMU\data`.
-- Compatibility paths `CT_Model\DATA\Site_A` and `Cali_EIR_BSU_CH1` are kept so
-  copied scripts that use `ROOT / "CT_Model"` or `ROOT / "Cali_EIR_BSU_CH1"`
-  still run from this root.
+- Generated CLI results live in `E:\VISUAL_code\AUTO_FMU\outputs`.
+- Real BMS data, historical outputs, and FMUs remain external under
+  `E:\VISUAL_code\FMU_Modelica` and are referenced through configuration.
+- Selected historical scripts live under `scripts\legacy_site_a` as migration
+  evidence. They may still contain archive-specific paths and are not the
+  reusable package implementation.
 
 ## Safety
 
@@ -60,3 +61,5 @@ Before claiming completion:
 - `docs\PROJECT_INVENTORY.md`
 - `docs\AUTOMODELLING_WORKFLOW.md`
 - `docs\MIGRATION_MANIFEST.md`
+- `docs\REAL_CASE_MIGRATION_MATRIX.md`
+- `docs\KNOWN_LIMITATIONS.md`

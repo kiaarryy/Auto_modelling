@@ -1,0 +1,22 @@
+outputs_dir: outputs
+equipment:
+  chiller:
+    - id: CHILLER_NORTH_01
+      source_csv: data/chiller.csv
+      metric: power_W
+      candidates: [passthrough]
+  cooling_tower:
+    - id: TOWER_WEST_01
+      source_csv: data/cooling_tower.csv
+      metric: Q_W
+      candidates: [passthrough]
+  pump:
+    - id: PUMP_CONDENSER_A
+      source_csv: data/pump.csv
+      metric: power_W
+      candidates: [passthrough]
+  heat_exchanger:
+    - id: HX_PRIMARY_01
+      source_csv: data/heat_exchanger.csv
+      metric: Q_W
+      candidates: [passthrough]

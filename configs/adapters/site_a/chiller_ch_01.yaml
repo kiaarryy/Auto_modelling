@@ -1,0 +1,15 @@
+source_csv: CH_01.csv
+timestamp: DateTime
+columns:
+  condenser_flow_kg_s:
+    source: CH-1E01-CDW-WFM.Present Value (lps)
+    scale: 1.0
+    unit: kg/s
+  chilled_flow_kg_s:
+    source: CH-1E01-CHW-WFM.Present Value (lps)
+    scale: 1.0
+    unit: kg/s
+  power_W:
+    source: P/kw
+    scale: 1000.0
+    unit: W

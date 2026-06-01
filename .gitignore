@@ -17,6 +17,7 @@ __pycache__/
 .venv/
 venv/
 env/
+*.egg-info/
 
 # MATLAB / Simulink generated state
 slprj/

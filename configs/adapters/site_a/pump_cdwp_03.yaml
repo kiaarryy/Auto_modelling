@@ -1,0 +1,11 @@
+source_csv: pump/CDWP_03.csv
+timestamp: DateTime
+columns:
+  speed_Hz:
+    source: CDWP-1E03-VSD-STS.Present Value (Hz)
+    scale: 1.0
+    unit: Hz
+  power_W:
+    source: P/kw
+    scale: 1000.0
+    unit: W

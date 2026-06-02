@@ -16,3 +16,9 @@ No FMU, real BMS CSV or historical output tree is copied into Git.
 ## Reduced assets
 
 System closed-loop scripts, manuscript-generation code and historical exploratory analyses remain in the archive.
+
+## Validation
+
+- Public CI runs pytest, hygiene scanning, generic config validation and the generic fixture batch.
+- Local Site A release validation runs all 28 configured devices with explicit statuses.
+- Local archive regression normalizes all four equipment schemas and checks 19 metrics at tolerance `<= 1e-3`.

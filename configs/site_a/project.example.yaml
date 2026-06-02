@@ -29,16 +29,18 @@ cooling_tower_defaults: &cooling_tower_defaults
   runner: cooling_tower_external
   readiness:
     min_valid_rows: 288
+  calibration:
+    window_rows: 288
+    window_stride: 12
+    fan_alphas: [1.2, 1.6, 2.0, 2.5, 3.0]
   thresholds:
     CVRMSE_pct: 20.0
     NMBE_pct: 10.0
   candidates:
     - model: Merkel
       fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/CTM_0FMU.fmu"
-      parameter_csv: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/cooling_tower/auto_model_site_a/site_a_best_parameters_full_period_refined.csv"
     - model: YorkCalc
       fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/CTY_0FMU.fmu"
-      parameter_csv: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/cooling_tower/auto_model_site_a/site_a_best_parameters_full_period_refined.csv"
 
 heat_exchanger_defaults: &heat_exchanger_defaults
   runner: heat_exchanger_external

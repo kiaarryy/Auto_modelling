@@ -5,6 +5,9 @@
 - `src/auto_fmu`: reusable CLI, manifest, optimization, FMU interface inspection, metrics, windows, regression and hygiene checks.
 - `adapters/site_a`: building-specific raw-to-canonical entry points kept outside the reusable package.
 - `examples/generic_building_minimal`: renamed fixture used for orchestration smoke tests.
+- `docs/QUICKSTART.md`, `docs/CONFIGURATION.md`, `docs/EXPORT_TOOLCHAIN.md` and
+  `docs/RESULT_INTERPRETATION.md`: public sharing documentation.
+- `docs/SITE_A_VALIDATION_REPORT.md`: sanitized local release evidence.
 
 ## Legacy migration evidence
 

@@ -8,22 +8,40 @@ cases:
     variable: full_cvrmse_pct
     normalizer: pump_legacy
     baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/pump/auto_model_site_a/full_period_validation_metrics.csv
-    new_csv: outputs/runs/site-a-regression/new_metrics/pump.csv
+    new_csv: outputs/runs/site-a-batch/new_metrics/pump.csv
   - equipment: chiller
     equipment_id: DCCP_01
     candidate: ElectricEIR
-    variable: CVRMSE
-    baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/comparison/three_type/table4_recalculated.csv
-    new_csv: outputs/runs/site-a-regression/new_metrics/chiller.csv
+    normalizer: chiller_timeseries
+    baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/comparison/three_type/timeseries/DCCP_01_EIR_comparison.csv
+    new_csv: outputs/runs/site-a-batch/new_metrics/chiller.csv
+  - equipment: chiller
+    equipment_id: DCCP_01
+    candidate: ElectricReformulatedEIR
+    normalizer: chiller_timeseries
+    baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/comparison/three_type/timeseries/DCCP_01_EEIR_comparison.csv
+    new_csv: outputs/runs/site-a-batch/new_metrics/chiller.csv
+  - equipment: chiller
+    equipment_id: DCCP_01
+    candidate: Carnot_TEva
+    normalizer: chiller_timeseries
+    baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/comparison/three_type/timeseries/DCCP_01_Carnot_TEva_comparison.csv
+    new_csv: outputs/runs/site-a-batch/new_metrics/chiller.csv
   - equipment: cooling_tower
     equipment_id: CT_03
     candidate: Merkel
-    variable: CVRMSE_%
+    normalizer: cooling_tower_legacy
     baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/cooling_tower/auto_model_site_a_full_period/site_a_full_period_metrics_long.csv
-    new_csv: outputs/runs/site-a-regression/new_metrics/cooling_tower.csv
+    new_csv: outputs/runs/site-a-batch/new_metrics/cooling_tower.csv
+  - equipment: heat_exchanger
+    equipment_id: HX_02
+    candidate: ConstantEffectiveness
+    normalizer: heat_exchanger_legacy
+    baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/heat_exchanger/validation/site_a_hx_full_period_metrics.csv
+    new_csv: outputs/runs/site-a-batch/new_metrics/heat_exchanger.csv
   - equipment: heat_exchanger
     equipment_id: HX_02
     candidate: PlateEffectivenessNTU
-    variable: CVRMSE
+    normalizer: heat_exchanger_legacy
     baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/heat_exchanger/validation/site_a_hx_full_period_metrics.csv
-    new_csv: outputs/runs/site-a-regression/new_metrics/heat_exchanger.csv
+    new_csv: outputs/runs/site-a-batch/new_metrics/heat_exchanger.csv

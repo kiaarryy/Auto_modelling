@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -113,6 +114,31 @@ def test_external_reference_records_hash_interface_and_smoke_status(tmp_path: Pa
     assert reference["interface"]["outputs"] == ["y"]
     assert reference["smoke"]["status"] == "not_run"
     assert not (tmp_path / "fmu" / "exported_model.fmu").exists()
+
+
+def test_render_and_export_collects_dymola_fmu_written_next_to_model(tmp_path: Path, monkeypatch) -> None:
+    dymola = tmp_path / "Dymola.exe"
+    dymola.write_text("", encoding="utf-8")
+    model = tmp_path / "modelica" / "generated_model.mo"
+    model.parent.mkdir()
+    model.write_text("model Mock\nend Mock;\n", encoding="utf-8")
+
+    def fake_run(*args, **kwargs):
+        mock_fmu(model.parent / "Mock.fmu")
+        return subprocess.CompletedProcess(args[0], 0, "translated", "")
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+
+    result = export_fmu(
+        {"mode": ExportMode.RENDER_AND_EXPORT.value, "dymola_exe": str(dymola), "model_name": "Mock"},
+        output_dir=tmp_path / "fmu",
+        rendered_model=model,
+    )
+
+    assert result.ok
+    assert result.artifact == tmp_path / "fmu" / "exported_model.fmu"
+    assert result.artifact.exists()
+    assert (tmp_path / "fmu" / "export_fmu.log").read_text(encoding="utf-8") == "returncode=0\nSTDOUT:\ntranslated\nSTDERR:\n\n"
 
 
 def test_run_and_batch_write_per_device_contract(tmp_path: Path) -> None:

@@ -48,6 +48,15 @@ Run one configured device with:
 auto-fmu run --config <project.yaml> --equipment pump --equipment-id <id> --run-id <id>
 ```
 
+The public Site A template uses environment variables and contains all 17 Pump
+mappings:
+
+```powershell
+$env:AUTO_FMU_ARCHIVE_ROOT = "<external-archive-root>"
+$env:AUTO_FMU_SITE_A_ROOT = "<external-site-data-root>"
+auto-fmu batch --config configs\site_a\project.example.yaml --equipment pump --run-id site-a-pump-batch
+```
+
 ## Archive Regression Readiness
 
 ```powershell

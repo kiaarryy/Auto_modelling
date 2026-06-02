@@ -84,6 +84,39 @@ def test_regression_cli_writes_comparison_and_blocked_rows(tmp_path: Path) -> No
     assert chiller["status"].tolist() == ["blocked"]
 
 
+def test_regression_cli_normalizes_legacy_pump_metrics(tmp_path: Path) -> None:
+    baseline = tmp_path / "baseline.csv"
+    current = tmp_path / "current.csv"
+    pd.DataFrame([{"pump": "CDWP_03", "family": "affinity_y3", "full_cvrmse_pct": 3.0}]).to_csv(baseline, index=False)
+    pd.DataFrame([{"equipment_id": "CDWP_03", "candidate": "affinity_y3", "variable": "full_cvrmse_pct", "value": 3.0005}]).to_csv(
+        current, index=False
+    )
+    config = tmp_path / "regression.yaml"
+    config.write_text(
+        yaml.safe_dump(
+            {
+                "outputs_dir": "outputs",
+                "cases": [
+                    {
+                        "equipment": "pump",
+                        "equipment_id": "CDWP_03",
+                        "candidate": "affinity_y3",
+                        "variable": "full_cvrmse_pct",
+                        "baseline_csv": "baseline.csv",
+                        "new_csv": "current.csv",
+                        "normalizer": "pump_legacy",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert main(["regression", "--config", str(config), "--equipment", "pump", "--run-id", "regression"]) == 0
+    compared = pd.read_csv(tmp_path / "outputs" / "runs" / "regression" / "regression" / "pump.csv")
+    assert compared["status"].tolist() == ["pass"]
+
+
 def test_scan_hygiene_rejects_fixed_archive_paths_in_core(tmp_path: Path) -> None:
     source = tmp_path / "src" / "auto_fmu"
     source.mkdir(parents=True)
@@ -92,7 +125,7 @@ def test_scan_hygiene_rejects_fixed_archive_paths_in_core(tmp_path: Path) -> Non
     assert main(["scan-hygiene", "--root", str(tmp_path)]) == 1
 
 
-def test_scan_hygiene_rejects_public_absolute_paths_and_local_yaml(tmp_path: Path) -> None:
+def test_scan_hygiene_rejects_public_absolute_paths_but_allows_local_yaml(tmp_path: Path) -> None:
     docs = tmp_path / "docs"
     configs = tmp_path / "configs"
     docs.mkdir()
@@ -101,3 +134,11 @@ def test_scan_hygiene_rejects_public_absolute_paths_and_local_yaml(tmp_path: Pat
     (configs / "project.local.yaml").write_text("outputs_dir: outputs\n", encoding="utf-8")
 
     assert main(["scan-hygiene", "--root", str(tmp_path)]) == 1
+
+
+def test_scan_hygiene_allows_ignored_local_yaml_content(tmp_path: Path) -> None:
+    configs = tmp_path / "configs"
+    configs.mkdir()
+    (configs / "project.local.yaml").write_text("archive: E:/private/archive\n", encoding="utf-8")
+
+    assert main(["scan-hygiene", "--root", str(tmp_path)]) == 0

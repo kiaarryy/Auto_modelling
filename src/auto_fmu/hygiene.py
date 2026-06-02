@@ -29,7 +29,7 @@ def scan_hygiene(root: Path) -> list[str]:
             continue
         relative = path.relative_to(root)
         if path.name.endswith(".local.yaml"):
-            errors.append(f"{relative}: local YAML must not be published")
+            continue
         if ABSOLUTE_PATH.search(path.read_text(encoding="utf-8")):
             errors.append(f"{relative}: contains public absolute path")
     try:

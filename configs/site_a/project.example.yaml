@@ -1,4 +1,4 @@
-outputs_dir: outputs
+outputs_dir: ../../outputs
 thresholds:
   CVRMSE_pct: 10.0
   NMBE_pct: 5.0
@@ -8,8 +8,110 @@ archive_root: ${AUTO_FMU_ARCHIVE_ROOT}
 export_defaults:
   mode: disabled
 
+pump_defaults: &pump_defaults
+  runner: pump_empirical
+  flow_scale: 0.997
+  candidates: [affinity_y3, speed_poly, flow_speed_5term]
+  window:
+    rows: 288
+    stride: 12
+    count: 3
+    min_separation: 288
+    step_seconds: 300
+  readiness:
+    min_valid_rows: 288
+    min_windows: 1
+    hxcwp_min_flow_p95: 10.0
+  export:
+    mode: disabled
+
 equipment:
-  pump: []
+  pump:
+    - <<: *pump_defaults
+      id: CHWP_01
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CHWP_01.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CH_01.csv"}
+      flow_family: CHW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CDWP_01
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CDWP_01.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CH_01.csv"}
+      flow_family: CDW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CHWP_02
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CHWP_02.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CH_02.csv"}
+      flow_family: CHW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CDWP_02
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CDWP_02.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CH_02.csv"}
+      flow_family: CDW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CHWP_03
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CHWP_03.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CH_03.csv"}
+      flow_family: CHW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CDWP_03
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CDWP_03.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/CH_03.csv"}
+      flow_family: CDW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: HXCWP_01
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/HXCWP_01.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/HX_01.csv"}
+      flow_family: CDW
+      source_kind: HX
+    - <<: *pump_defaults
+      id: CHWP_04
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CHWP_04.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CH_04.csv"}
+      flow_family: CHW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CDWP_04
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CDWP_04.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CH_04.csv"}
+      flow_family: CDW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CHWP_05
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CHWP_05.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CH_05.csv"}
+      flow_family: CHW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CDWP_05
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CDWP_05.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/CH_05.csv"}
+      flow_family: CDW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: HXCWP_02
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/HXCWP_02.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/HX_02.csv"}
+      flow_family: CDW
+      source_kind: HX
+    - <<: *pump_defaults
+      id: CHWP_06
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CHWP_06.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CH_06.csv"}
+      flow_family: CHW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CDWP_06
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CDWP_06.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CH_06.csv"}
+      flow_family: CDW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CHWP_07
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CHWP_07.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CH_07.csv"}
+      flow_family: CHW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: CDWP_07
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CDWP_07.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/CH_07.csv"}
+      flow_family: CDW
+      source_kind: CH
+    - <<: *pump_defaults
+      id: HXCWP_03
+      sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/HXCWP_03.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/HX_03.csv"}
+      flow_family: CDW
+      source_kind: HX
   chiller: []
   cooling_tower: []
   heat_exchanger: []

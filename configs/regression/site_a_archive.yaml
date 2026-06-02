@@ -6,6 +6,7 @@ cases:
     equipment_id: CDWP_03
     candidate: affinity_y3
     variable: full_cvrmse_pct
+    normalizer: pump_legacy
     baseline_csv: ${AUTO_FMU_ARCHIVE_ROOT}/outputs/pump/auto_model_site_a/full_period_validation_metrics.csv
     new_csv: outputs/runs/site-a-regression/new_metrics/pump.csv
   - equipment: chiller

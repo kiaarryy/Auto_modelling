@@ -81,7 +81,12 @@ def _render_and_export(settings: dict[str, Any], output_dir: Path, rendered_mode
         text=True,
         check=False,
     )
-    exported = next(output_dir.glob("*.fmu"), None)
+    (output_dir / "export_fmu.log").write_text(
+        f"returncode={completed.returncode}\nSTDOUT:\n{completed.stdout}\nSTDERR:\n{completed.stderr}\n",
+        encoding="utf-8",
+    )
+    candidates = [*output_dir.glob("*.fmu"), *Path(rendered_model).parent.glob("*.fmu")]
+    exported = next(iter(candidates), None)
     if completed.returncode != 0 or exported is None:
         return ExportResult(False, ExportMode.RENDER_AND_EXPORT, f"Dymola export failed with code {completed.returncode}")
     target = output_dir / "exported_model.fmu"

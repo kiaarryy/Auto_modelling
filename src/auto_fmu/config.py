@@ -75,9 +75,12 @@ def validate_config(config: dict[str, Any]) -> list[str]:
         for device in devices or []:
             if not device.get("id"):
                 errors.append(f"{equipment_type}: device id is required")
-            if not device.get("metric"):
+            if not device.get("metric") and not device.get("runner"):
                 errors.append(f"{equipment_type}/{device.get('id', '?')}: metric is required")
             source = device.get("source_csv")
             if source and not resolve_path(config, source).exists():
                 errors.append(f"{equipment_type}/{device.get('id', '?')}: source CSV does not exist: {source}")
+            for source_name, source_value in device.get("sources", {}).items():
+                if source_value and not resolve_path(config, source_value).exists():
+                    errors.append(f"{equipment_type}/{device.get('id', '?')}: {source_name} does not exist: {source_value}")
     return errors

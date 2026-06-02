@@ -1,7 +1,7 @@
 model PumpEmpiricalPower
-  input Real m_flow_in(unit="kg/s") = m_flow_nominal
+  input Real m_flow_in(unit="kg/s", start=100.0)
     "Measured pump mass flow input";
-  input Real y_in(unit="1") = 1.0
+  input Real y_in(unit="1", start=1.0)
     "Normalized pump speed or frequency input";
 
   parameter Real P_nominal(unit="W") = 40000.0 annotation(Evaluate=false);

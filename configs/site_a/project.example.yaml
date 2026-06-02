@@ -112,6 +112,26 @@ equipment:
       sources: {pump_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/HXCWP_03.csv", flow_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/HX_03.csv"}
       flow_family: CDW
       source_kind: HX
-  chiller: []
+  chiller:
+    - id: DCCP_01
+      runner: chiller_external
+      sources:
+        steady_csv: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/ChillerData/steady/CH_01_steady.csv"
+      readiness:
+        min_valid_rows: 30
+      thresholds:
+        CVRMSE_pct: 30.0
+        NMBE_pct: 15.0
+      candidates:
+        - kind: ElectricEIR
+          fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/ChillerCalibration_FMU_chiller_0EIR3.fmu"
+          curve_data: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/ChillerData/ChillerData_v3.xlsx"
+          row: 66
+        - kind: ElectricReformulatedEIR
+          fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/ChillerCalibration_0EEIR_FMU_chiller_0EEIR.fmu"
+          curve_data: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/ChillerData_ElectricReformulatedEIR_v12_1_0.xlsx"
+          row: 91
+        - kind: Carnot_TEva
+          fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/ChillerCalibration_FMU_chiller_Carnot.fmu"
   cooling_tower: []
   heat_exchanger: []

@@ -9,7 +9,10 @@ The optional MBL speed/system FMU remains archived reference work.
 
 ## Chiller
 
-Archived candidates: `ElectricEIR`, `ElectricReformulatedEIR`, `Carnot_TEva`.
+Implemented external-reference candidates: `ElectricEIR`,
+`ElectricReformulatedEIR`, `Carnot_TEva`. The runner generates an `AllData2`
+steady table, estimates measured nominals, filters start values against the FMI
+interface, simulates all candidates, and scores `P`, `QEva`, and `COP`.
 
 ## Cooling tower
 

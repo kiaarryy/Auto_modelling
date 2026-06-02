@@ -18,5 +18,9 @@ def create_runner(context: RunnerContext) -> EquipmentRunner:
         from auto_fmu.equipment.pump import PumpRunner
 
         return PumpRunner(context)
+    if context.device.get("runner") == "chiller_external":
+        from auto_fmu.equipment.chiller import ChillerRunner
+
+        return ChillerRunner(context)
     runner = RUNNERS.get(context.equipment_type, FixtureRunner)
     return runner(context)

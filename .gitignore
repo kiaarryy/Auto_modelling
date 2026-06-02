@@ -46,6 +46,7 @@ fmiModelIdentifier.h
 # Project data and generated outputs
 logs/
 outputs/
+configs/**/*.local.yaml
 CT_Model/DATA/
 CT_Model/results/
 CT_Model/results_ct/

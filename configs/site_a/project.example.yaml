@@ -1,0 +1,15 @@
+outputs_dir: outputs
+thresholds:
+  CVRMSE_pct: 10.0
+  NMBE_pct: 5.0
+
+# Keep machine-specific paths in project.local.yaml or environment variables.
+archive_root: ${AUTO_FMU_ARCHIVE_ROOT}
+export_defaults:
+  mode: disabled
+
+equipment:
+  pump: []
+  chiller: []
+  cooling_tower: []
+  heat_exchanger: []

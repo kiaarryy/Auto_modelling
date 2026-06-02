@@ -7,9 +7,9 @@
 
 ## External assets
 
-- Site A BMS data: `E:\VISUAL_code\FMU_Modelica\CT_Model\DATA\Site_A`.
-- Chiller data and FMUs: `E:\VISUAL_code\FMU_Modelica\Cali_EIR_BSU_CH1`.
-- Historical metrics: `E:\VISUAL_code\FMU_Modelica\outputs`.
+- Site A BMS data: `${AUTO_FMU_ARCHIVE_ROOT}\CT_Model\DATA\Site_A`.
+- Chiller data and FMUs: `${AUTO_FMU_ARCHIVE_ROOT}\Cali_EIR_BSU_CH1`.
+- Historical metrics: `${AUTO_FMU_ARCHIVE_ROOT}\outputs`.
 
 No FMU, real BMS CSV or historical output tree is copied into Git.
 

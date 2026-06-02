@@ -8,9 +8,9 @@
 
 ## Legacy migration evidence
 
-- `scripts/legacy_site_a`: selected device scripts copied from `E:\VISUAL_code\FMU_Modelica\scripts`.
+- `scripts/legacy_site_a`: selected device scripts copied from the external archive.
 - `models/pump` and `models/heat_exchanger`: copied Modelica wrappers.
-- Real BMS CSVs, generated outputs and FMUs remain external under `E:\VISUAL_code\FMU_Modelica`.
+- Real BMS CSVs, generated outputs and FMUs remain external under `${AUTO_FMU_ARCHIVE_ROOT}`.
 
 ## Excluded scope
 

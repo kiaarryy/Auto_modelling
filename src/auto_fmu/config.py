@@ -81,6 +81,8 @@ def validate_config(config: dict[str, Any]) -> list[str]:
             if source and not resolve_path(config, source).exists():
                 errors.append(f"{equipment_type}/{device.get('id', '?')}: source CSV does not exist: {source}")
             for source_name, source_value in device.get("sources", {}).items():
-                if source_value and not resolve_path(config, source_value).exists():
-                    errors.append(f"{equipment_type}/{device.get('id', '?')}: {source_name} does not exist: {source_value}")
+                values = source_value if isinstance(source_value, list) else [source_value]
+                for value in values:
+                    if value and not resolve_path(config, value).exists():
+                        errors.append(f"{equipment_type}/{device.get('id', '?')}: {source_name} does not exist: {value}")
     return errors

@@ -16,7 +16,10 @@ interface, simulates all candidates, and scores `P`, `QEva`, and `COP`.
 
 ## Cooling tower
 
-Archived candidates: `Merkel`, `YorkCalc`. Site A two-fan external scaling must be applied exactly once.
+Implemented external-reference candidates: `Merkel`, `YorkCalc`. The runner
+joins chiller/HX flow sources, compresses the full-period axis to five-minute
+steps while preserving source-time mapping, forces YorkCalc `nFan=1.0`, and
+applies Site A two-fan scaling exactly once in Python.
 
 ## Heat exchanger
 

@@ -25,6 +25,21 @@ pump_defaults: &pump_defaults
   export:
     mode: disabled
 
+cooling_tower_defaults: &cooling_tower_defaults
+  runner: cooling_tower_external
+  readiness:
+    min_valid_rows: 288
+  thresholds:
+    CVRMSE_pct: 20.0
+    NMBE_pct: 10.0
+  candidates:
+    - model: Merkel
+      fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/CTM_0FMU.fmu"
+      parameter_csv: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/cooling_tower/auto_model_site_a/site_a_best_parameters_full_period_refined.csv"
+    - model: YorkCalc
+      fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/CTY_0FMU.fmu"
+      parameter_csv: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/cooling_tower/auto_model_site_a/site_a_best_parameters_full_period_refined.csv"
+
 equipment:
   pump:
     - <<: *pump_defaults
@@ -133,5 +148,47 @@ equipment:
           row: 91
         - kind: Carnot_TEva
           fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/ChillerCalibration_FMU_chiller_Carnot.fmu"
-  cooling_tower: []
+  cooling_tower:
+    - <<: *cooling_tower_defaults
+      id: CT_01
+      sources:
+        tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_01.csv"
+        wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
+        flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_01.csv", "${AUTO_FMU_SITE_A_ROOT}/heat_exchanger/HX_01.csv"]
+    - <<: *cooling_tower_defaults
+      id: CT_02
+      sources:
+        tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_02.csv"
+        wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
+        flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_02.csv"]
+    - <<: *cooling_tower_defaults
+      id: CT_03
+      sources:
+        tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_03.csv"
+        wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
+        flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_03.csv"]
+    - <<: *cooling_tower_defaults
+      id: CT_04
+      sources:
+        tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_04.csv"
+        wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
+        flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_04.csv", "${AUTO_FMU_SITE_A_ROOT}/heat_exchanger/HX_02.csv"]
+    - <<: *cooling_tower_defaults
+      id: CT_05
+      sources:
+        tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_05.csv"
+        wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
+        flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_05.csv"]
+    - <<: *cooling_tower_defaults
+      id: CT_06
+      sources:
+        tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_06.csv"
+        wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
+        flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_06.csv", "${AUTO_FMU_SITE_A_ROOT}/heat_exchanger/HX_03.csv"]
+    - <<: *cooling_tower_defaults
+      id: CT_07
+      sources:
+        tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_07.csv"
+        wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
+        flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_07.csv"]
   heat_exchanger: []

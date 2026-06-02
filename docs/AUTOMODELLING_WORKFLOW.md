@@ -31,3 +31,11 @@ Generate the current archive-regression readiness report:
 $env:AUTO_FMU_ARCHIVE_ROOT = "<external-archive-root>"
 auto-fmu regression --config configs\regression\site_a_archive.yaml --equipment all --run-id site-a-regression
 ```
+
+For a local four-equipment Site A run:
+
+```powershell
+$env:AUTO_FMU_ARCHIVE_ROOT = "<external-archive-root>"
+$env:AUTO_FMU_SITE_A_ROOT = "<external-site-data-root>"
+auto-fmu batch --config configs\site_a\project.example.yaml --equipment all --run-id site-a-batch
+```

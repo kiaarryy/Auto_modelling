@@ -15,8 +15,8 @@ from pathlib import Path
 from typing import Mapping
 
 
-ROOT = Path(__file__).resolve().parents[1]
-BUILDINGS_PACKAGE = Path(r"E:\APP\dymola2025\Modelica\Buildings 12.1.0\package.mo")
+ROOT = Path(__file__).resolve().parents[2]
+BUILDINGS_PACKAGE = Path(os.environ.get("BUILDINGS_PACKAGE", r"E:\APP\dymola2025\Modelica\Buildings 12.1.0\package.mo"))
 MODEL_DIR = ROOT / "models" / "heat_exchanger"
 PLATE_SOURCE = MODEL_DIR / "SiteAHXPlateEffectivenessNTU.mo"
 CONSTANT_SOURCE = MODEL_DIR / "SiteAHXConstantEffectiveness.mo"

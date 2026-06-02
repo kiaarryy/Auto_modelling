@@ -7,6 +7,7 @@ from typing import Any
 import pandas as pd
 import yaml
 
+from auto_fmu.metrics import regression_metrics
 from auto_fmu.regression import compare_metric_rows
 from auto_fmu.reporting import table_to_markdown
 
@@ -26,6 +27,30 @@ def _normalize_pump_legacy(frame: pd.DataFrame) -> list[dict[str, object]]:
         }
         for row in frame.to_dict("records")
     ]
+
+
+def _normalize_chiller_timeseries(frame: pd.DataFrame) -> list[dict[str, object]]:
+    first = frame.iloc[0]
+    candidate = {"EIR": "ElectricEIR", "EEIR": "ElectricReformulatedEIR"}.get(str(first["Model type"]), str(first["Model type"]))
+    equipment_id = str(first["Equipment"]).replace(" ", "_")
+    pairs = {"P_W": ("P_measured_kW", "P_sim_kW"), "QEva_W": ("Q_measured_kW", "Q_sim_kW"), "COP": ("COP_measured", "COP_sim")}
+    return [{"equipment_id": equipment_id, "candidate": candidate, "variable": variable, "value": regression_metrics(frame[measured], frame[simulated])["CVRMSE_pct"]} for variable, (measured, simulated) in pairs.items()]
+
+
+def _normalize_cooling_tower_legacy(frame: pd.DataFrame) -> list[dict[str, object]]:
+    return [{"equipment_id": row["tower"], "candidate": row["model"], "variable": row["variable"], "value": row["CVRMSE_%"]} for row in frame.to_dict("records")]
+
+
+def _normalize_heat_exchanger_legacy(frame: pd.DataFrame) -> list[dict[str, object]]:
+    return [{"equipment_id": row["hx"], "candidate": row["model"], "variable": row["variable"], "value": row["CVRMSE"]} for row in frame.to_dict("records")]
+
+
+NORMALIZERS = {
+    "pump_legacy": _normalize_pump_legacy,
+    "chiller_timeseries": _normalize_chiller_timeseries,
+    "cooling_tower_legacy": _normalize_cooling_tower_legacy,
+    "heat_exchanger_legacy": _normalize_heat_exchanger_legacy,
+}
 
 
 def _select_case(rows: list[dict[str, object]], case: dict[str, Any]) -> list[dict[str, object]]:
@@ -59,9 +84,9 @@ def run_regression(config_path: Path, equipment: str, run_id: str) -> Path:
                 }
             )
             continue
-        legacy_rows = pd.read_csv(baseline).to_dict("records")
-        if case.get("normalizer") == "pump_legacy":
-            legacy_rows = _normalize_pump_legacy(pd.read_csv(baseline))
+        baseline_frame = pd.read_csv(baseline)
+        normalizer = NORMALIZERS.get(case.get("normalizer"))
+        legacy_rows = normalizer(baseline_frame) if normalizer else baseline_frame.to_dict("records")
         current_rows = pd.read_csv(current).to_dict("records")
         compared = compare_metric_rows(
             _select_case(legacy_rows, case),

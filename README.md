@@ -49,7 +49,7 @@ auto-fmu run --config <project.yaml> --equipment pump --equipment-id <id> --run-
 ```
 
 The public Site A template uses environment variables and contains all 17 Pump
-mappings:
+mappings plus chiller, cooling-tower and heat-exchanger real-case entries:
 
 ```powershell
 $env:AUTO_FMU_ARCHIVE_ROOT = "<external-archive-root>"
@@ -57,6 +57,8 @@ $env:AUTO_FMU_SITE_A_ROOT = "<external-site-data-root>"
 auto-fmu batch --config configs\site_a\project.example.yaml --equipment pump --run-id site-a-pump-batch
 auto-fmu run --config configs\site_a\project.example.yaml --equipment chiller --equipment-id DCCP_01 --run-id site-a-chiller
 auto-fmu batch --config configs\site_a\project.example.yaml --equipment cooling_tower --run-id site-a-ct-batch
+auto-fmu batch --config configs\site_a\project.example.yaml --equipment heat_exchanger --run-id site-a-hx-batch
+auto-fmu batch --config configs\site_a\project.example.yaml --equipment all --run-id site-a-batch
 ```
 
 ## Archive Regression Readiness
@@ -66,8 +68,14 @@ $env:AUTO_FMU_ARCHIVE_ROOT = "<external-archive-root>"
 auto-fmu regression --config configs\regression\site_a_archive.yaml --equipment all --run-id site-a-regression
 ```
 
-The current report is expected to mark cases as `blocked` until the real
-model-specific runners generate normalized new metric CSVs.
+The regression command converts archived device-specific CSVs into one schema
+and checks absolute metric differences against the configured tolerance.
+
+## Optional Export Toolchain
+
+Dymola and the Modelica Buildings Library are optional external tools. They are
+not distributed with this repository. Existing FMUs may be referenced through
+ignored local configuration for validation-only runs.
 
 ## Start Here
 
@@ -76,3 +84,4 @@ model-specific runners generate normalized new metric CSVs.
 3. `docs\REAL_CASE_MIGRATION_MATRIX.md`
 4. `docs\AUTOMODELLING_WORKFLOW.md`
 5. `docs\KNOWN_LIMITATIONS.md`
+6. `docs\SITE_A_VALIDATION_REPORT.md`

@@ -8,8 +8,7 @@ Run:
 auto-fmu regression --config configs\regression\site_a_archive.yaml --equipment all --run-id site-a-regression
 ```
 
-Pump batch runs now write `outputs\runs\<run-id>\new_metrics\pump.csv`
-automatically, and the regression command normalizes the archived Pump schema.
-The other equipment rows intentionally remain `blocked` until their real
-runners write normalized metrics. A real regression is complete only after
-matching metric definitions and verifying absolute differences `<= 1e-3`.
+Each real batch writes `outputs\runs\<run-id>\new_metrics\<equipment>.csv`.
+The regression command normalizes the four archived schemas before comparing
+them. A real regression is complete only after matching metric definitions and
+verifying absolute differences `<= 1e-3`.

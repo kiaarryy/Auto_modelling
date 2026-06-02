@@ -301,8 +301,9 @@ class ChillerRunner(EquipmentRunner):
 
     def regression_rows(self) -> list[dict[str, Any]]:
         return [
-            {"equipment_id": self.context.device["id"], "candidate": row["candidate"], "variable": row["variable"], "value": row["CVRMSE_pct"]}
-            for row in self.metric_rows
+            {"equipment_id": self.context.device["id"], "candidate": candidate, "variable": variable, "value": values["CVRMSE_pct"]}
+            for candidate, result in self.candidate_results.items()
+            for variable, values in result["metrics"].items()
         ]
 
     def report(self, status: RunStatus) -> None:

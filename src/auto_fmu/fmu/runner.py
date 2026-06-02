@@ -9,8 +9,14 @@ import numpy as np
 from auto_fmu.fmu.inspect import FMUInterfaceSnapshot
 
 
-def validate_start_values(snapshot: FMUInterfaceSnapshot, start_values: Mapping[str, object]) -> None:
-    invalid = sorted(set(start_values) - set(snapshot.tunable_parameters))
+def validate_start_values(
+    snapshot: FMUInterfaceSnapshot,
+    start_values: Mapping[str, object],
+    *,
+    allow_fixed_parameters: bool = False,
+) -> None:
+    allowed = snapshot.parameters if allow_fixed_parameters else snapshot.tunable_parameters
+    invalid = sorted(set(start_values) - set(allowed))
     if invalid:
         raise ValueError(f"parameters are not tunable through FMI: {', '.join(invalid)}")
 

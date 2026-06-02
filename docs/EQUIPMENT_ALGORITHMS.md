@@ -2,7 +2,10 @@
 
 ## Pump
 
-Archived candidates: `affinity_y3`, `speed_poly`, `flow_speed_5term`, plus optional MBL speed/system FMU.
+Implemented candidates: `affinity_y3`, `speed_poly`, `flow_speed_5term`.
+Pump CSV power and frequency fields are joined with mapped flow CSVs by
+timestamp. Final selection uses full-period CVRMSE with NMBE as the tie-breaker.
+The optional MBL speed/system FMU remains archived reference work.
 
 ## Chiller
 

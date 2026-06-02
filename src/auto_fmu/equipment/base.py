@@ -72,6 +72,9 @@ class EquipmentRunner(ABC):
     def report(self, status: RunStatus) -> None:
         """Write a human-readable device summary."""
 
+    def regression_rows(self) -> list[dict[str, Any]]:
+        return []
+
     def metrics_ok(self) -> bool:
         thresholds = {
             "CVRMSE_pct": 10.0,
@@ -116,6 +119,7 @@ class EquipmentRunner(ABC):
         self.readiness = self.check_readiness()
         self._write_readiness()
         if not self.readiness.ready:
+            self.export_result = ExportResult(True, self.export_mode, "not executed because readiness failed")
             status = RunStatus.NOT_READY
             self.report(status)
             self._write_manifest(status)

@@ -1,7 +1,7 @@
 # Known Limitations
 
 - The generic fixture validates CLI orchestration with a `passthrough` candidate only.
-- Real four-device `prepare -> calibrate -> validate -> report` runs are not yet routed through the new CLI.
+- Pump `prepare -> calibrate -> validate -> render -> export -> report` is routed through the new CLI. The other three real-device runners remain pending.
 - Cooling-tower flow reconstruction and heat-exchanger chunked simulation remain in copied legacy scripts.
-- The archive regression command currently emits `blocked` rows until normalized new metrics are generated.
-- FMU smoke simulation through FMPy has not yet been executed from the new CLI.
+- Chiller, cooling-tower and heat-exchanger archive regression rows remain `blocked` until their normalized new metrics are generated.
+- Pump FMU smoke simulation through FMPy is implemented. Other equipment smoke paths remain pending.

@@ -52,6 +52,12 @@ def test_validate_start_values_rejects_unexposed_parameter(tmp_path: Path) -> No
         validate_start_values(snapshot, {"compiled": 4.0})
 
 
+def test_validate_start_values_can_allow_fixed_initialization_parameter(tmp_path: Path) -> None:
+    snapshot = inspect_fmu(mock_fmu(tmp_path / "mock.fmu"))
+
+    validate_start_values(snapshot, {"compiled": 4.0}, allow_fixed_parameters=True)
+
+
 def test_build_input_and_csv_output_are_deterministic(tmp_path: Path) -> None:
     values = build_fmi_input({"time": [0, 300], "u": [1.0, 2.0]}, ["u"])
     output = tmp_path / "output.csv"

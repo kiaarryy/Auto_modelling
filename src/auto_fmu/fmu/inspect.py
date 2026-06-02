@@ -36,6 +36,10 @@ class FMUInterfaceSnapshot:
             if variable.causality == "parameter" and variable.variability == "tunable"
         )
 
+    @property
+    def parameters(self) -> Tuple[str, ...]:
+        return tuple(variable.name for variable in self.variables.values() if variable.causality == "parameter")
+
     def to_dict(self) -> dict[str, object]:
         return {"fmu_path": self.fmu_path, "variables": {name: asdict(variable) for name, variable in self.variables.items()}}
 

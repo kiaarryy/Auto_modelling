@@ -14,5 +14,9 @@ def register_runner(equipment_type: str, runner: Type[EquipmentRunner]) -> None:
 
 
 def create_runner(context: RunnerContext) -> EquipmentRunner:
+    if context.device.get("runner") == "pump_empirical":
+        from auto_fmu.equipment.pump import PumpRunner
+
+        return PumpRunner(context)
     runner = RUNNERS.get(context.equipment_type, FixtureRunner)
     return runner(context)

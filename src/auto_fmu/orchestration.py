@@ -39,10 +39,18 @@ def run_equipment(config: dict[str, Any], equipment: str, equipment_id: str, run
 def run_batch(config: dict[str, Any], equipment: str, run_id: str) -> Path:
     root = run_dir(config, run_id)
     rows = []
+    regression_rows: dict[str, list[dict[str, Any]]] = {}
     for equipment_type, device in _selected_devices(config, equipment):
         device_dir = root / equipment_type / device["id"]
-        status = create_runner(RunnerContext(config, equipment_type, device, run_id, root, device_dir)).execute()
+        runner = create_runner(RunnerContext(config, equipment_type, device, run_id, root, device_dir))
+        status = runner.execute()
         rows.append({"equipment_type": equipment_type, "equipment_id": device["id"], "status": status.value})
+        regression_rows.setdefault(equipment_type, []).extend(runner.regression_rows())
     root.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(rows, columns=["equipment_type", "equipment_id", "status"]).to_csv(root / "batch_summary.csv", index=False)
+    for equipment_type, metric_rows in regression_rows.items():
+        if metric_rows:
+            output = root / "new_metrics" / f"{equipment_type}.csv"
+            output.parent.mkdir(parents=True, exist_ok=True)
+            pd.DataFrame(metric_rows).to_csv(output, index=False)
     return root

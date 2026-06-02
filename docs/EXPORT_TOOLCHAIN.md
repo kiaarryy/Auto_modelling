@@ -13,3 +13,11 @@ $env:BUILDINGS_PACKAGE = "<path-to-Buildings-package.mo>"
 
 Dymola and the Modelica Buildings Library are external dependencies and are
 not distributed in this repository. Generated `*.fmu` files remain ignored.
+
+The HX export helper uses Dymola's bundled Python interface by default:
+
+```powershell
+python scripts\legacy_site_a\export_site_a_hx_fmus.py --run
+```
+
+Use `--batch` only to audit the legacy `/nowindow` MOS invocation.

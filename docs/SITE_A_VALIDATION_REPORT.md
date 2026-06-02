@@ -26,6 +26,14 @@ time series, FMUs or machine-specific paths.
 - `CT_01`: `high_error`.
 - `CT_02..CT_07`: `accepted`.
 - `CT_03` Merkel `TOut`, `Q` and `P` archived CVRMSE differences: `0`.
+- The reusable runner now performs a continuous 24-hour calibration-window
+  search when no local `parameter_csv` override is supplied. A local `CT_03`
+  search run completed 50 candidate simulations without failures and wrote
+  full-period metrics.
+- A seven-device default-search batch completed without skips. `CT_02` and
+  `CT_06` were `accepted`; `CT_01`, `CT_03`, `CT_04`, `CT_05` and `CT_07`
+  completed as `high_error`. Four rejected `CT_02` Merkel candidates were
+  recorded explicitly in the candidate metrics CSV.
 
 ## Heat Exchanger
 
@@ -33,6 +41,8 @@ time series, FMUs or machine-specific paths.
 - `HX_02`: `accepted`; 202 validation chunks, 0 failed.
 - `HX_03`: `not_ready` because both-side temperature fields are unavailable.
 - `HX_02` two-candidate, six-metric archived CVRMSE maximum absolute difference: `0`.
+- Both HX wrappers were re-exported locally through the Dymola Python
+  interface. Each passed a one-hour FMPy smoke run with 13 rows.
 
 ## Release Batch
 

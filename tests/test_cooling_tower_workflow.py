@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from auto_fmu.equipment.cooling_tower import compress_full_period, scale_total_outputs, york_values
+from auto_fmu.equipment.cooling_tower import build_thermal_candidates, compress_full_period, scale_total_outputs, select_calibration_window, york_values
 
 
 def test_ct_full_period_compression_preserves_source_time_mapping() -> None:
@@ -29,3 +29,22 @@ def test_yorkcalc_forces_single_fan_internal_output() -> None:
     )
 
     assert values["nFan"] == 1.0
+
+
+def test_ct_calibration_window_is_contiguous_24_hours() -> None:
+    first = pd.DataFrame({"time_s": [float(index * 300) for index in range(288)], "value": range(288)})
+    second = pd.DataFrame({"time_s": [float(100000 + index * 300) for index in range(300)], "value": range(300)})
+
+    window, manifest = select_calibration_window(pd.concat([first, second], ignore_index=True), rows=288, stride=12)
+
+    assert len(window) == 288
+    assert window["time_s"].tolist() == [float(index * 300) for index in range(288)]
+    assert manifest["rows"] == 288
+    assert manifest["source_start_time_s"] >= 100000.0
+
+
+def test_ct_search_grid_has_thermal_candidates_for_both_models() -> None:
+    base = {"TApp_nominal": 3.0, "TRan_nominal": 5.0}
+
+    assert len(build_thermal_candidates("Merkel", base)) == 20
+    assert len(build_thermal_candidates("YorkCalc", base)) == 20

@@ -1,7 +1,7 @@
 # Known Limitations
 
 - The generic fixture validates CLI orchestration with a `passthrough` candidate only.
-- Pump, chiller and cooling-tower workflows are routed through the new CLI. Heat-exchanger real routing remains pending.
+- Pump, chiller, cooling-tower and heat-exchanger workflows are routed through the new CLI.
 - Cooling-tower full-period validation is migrated. Window parameter search currently consumes the archived refined-parameter CSV until its search loop is moved into the runner.
-- Heat-exchanger archive regression rows remain `blocked` until normalized new metrics are generated.
-- Pump FMU smoke simulation and chiller/cooling-tower external-FMU simulations through FMPy are implemented. Heat-exchanger smoke remains pending.
+- Heat-exchanger Site A regression may consume the archived model-best parameter CSV for historical comparison. Without that CSV, the runner executes its migrated 14-candidate representative-window search.
+- Pump FMU smoke simulation and chiller/cooling-tower/heat-exchanger external-FMU simulations through FMPy are implemented.

@@ -9,7 +9,7 @@ import pandas as pd
 import yaml
 
 from auto_fmu.cli import main
-from auto_fmu.config import load_config
+from auto_fmu.config import load_config, validate_config
 from auto_fmu.fmu.exporter import ExportMode, export_fmu
 from auto_fmu.status import RunStatus, select_status
 
@@ -165,3 +165,18 @@ def test_run_and_batch_write_per_device_contract(tmp_path: Path) -> None:
     assert summary[["equipment_type", "equipment_id", "status"]].to_dict("records") == [
         {"equipment_type": "pump", "equipment_id": "PUMP_01", "status": RunStatus.ACCEPTED.value}
     ]
+
+
+def test_validate_config_supports_multi_source_lists(tmp_path: Path) -> None:
+    (tmp_path / "one.csv").write_text("timestamp,value\n", encoding="utf-8")
+    (tmp_path / "two.csv").write_text("timestamp,value\n", encoding="utf-8")
+    config = {
+        "_root": tmp_path,
+        "equipment": {
+            "cooling_tower": [
+                {"id": "CT_01", "runner": "cooling_tower_external", "sources": {"flow_csvs": ["one.csv", "two.csv"]}}
+            ]
+        },
+    }
+
+    assert validate_config(config) == []

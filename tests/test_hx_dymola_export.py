@@ -29,10 +29,11 @@ class FakeDymola:
         self.closed = True
 
 
-def test_hx_dymola_interface_egg_is_resolved_from_installation() -> None:
-    exe = Path("E:/APP/dymola2025/bin64/Dymola.exe")
+def test_hx_dymola_interface_egg_is_resolved_from_installation(tmp_path: Path) -> None:
+    installation = tmp_path / "dymola2025"
+    exe = installation / "bin64" / "Dymola.exe"
 
-    assert dymola_interface_egg(exe) == Path("E:/APP/dymola2025/Modelica/Library/python_interface/dymola.egg")
+    assert dymola_interface_egg(exe) == installation / "Modelica" / "Library" / "python_interface" / "dymola.egg"
 
 
 def test_hx_interface_export_translates_both_wrappers_and_closes(tmp_path: Path) -> None:

@@ -40,6 +40,23 @@ cooling_tower_defaults: &cooling_tower_defaults
       fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/Cali_EIR_BSU_CH1/Modelica/CTY_0FMU.fmu"
       parameter_csv: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/cooling_tower/auto_model_site_a/site_a_best_parameters_full_period_refined.csv"
 
+heat_exchanger_defaults: &heat_exchanger_defaults
+  runner: heat_exchanger_external
+  readiness:
+    min_valid_rows: 288
+  validation:
+    chunk_rows: 288
+  thresholds:
+    CVRMSE_pct: 15.0
+    NMBE_pct: 10.0
+  calibration:
+    parameters_csv: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/heat_exchanger/calibration/site_a_hx_model_best_parameters.csv"
+  candidates:
+    - model: ConstantEffectiveness
+      fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/heat_exchanger/modelica_interface/fmu/SiteAHXConstantEffectiveness.fmu"
+    - model: PlateEffectivenessNTU
+      fmu_path: "${AUTO_FMU_ARCHIVE_ROOT}/outputs/heat_exchanger/modelica_interface/fmu/SiteAHXPlateEffectivenessNTU.fmu"
+
 equipment:
   pump:
     - <<: *pump_defaults
@@ -191,4 +208,13 @@ equipment:
         tower_csv: "${AUTO_FMU_SITE_A_ROOT}/cooling_tower/CT_07.csv"
         wetbulb_csv: "${AUTO_FMU_SITE_A_ROOT}/WET_BALL/OUTDOOR/Local_IO.RF1-OUTDOOR_202405_202504_with_Twb.csv"
         flow_csvs: ["${AUTO_FMU_SITE_A_ROOT}/chiller/CH_07.csv"]
-  heat_exchanger: []
+  heat_exchanger:
+    - <<: *heat_exchanger_defaults
+      id: HX_01
+      sources: {hx_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/HX_01.csv", hxcwp_csv: "${AUTO_FMU_SITE_A_ROOT}/building1/HXCWP_01.csv"}
+    - <<: *heat_exchanger_defaults
+      id: HX_02
+      sources: {hx_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/HX_02.csv", hxcwp_csv: "${AUTO_FMU_SITE_A_ROOT}/building2/HXCWP_02.csv"}
+    - <<: *heat_exchanger_defaults
+      id: HX_03
+      sources: {hx_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/HX_03.csv", hxcwp_csv: "${AUTO_FMU_SITE_A_ROOT}/building3/HXCWP_03.csv"}

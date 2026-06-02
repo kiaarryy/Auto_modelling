@@ -26,5 +26,9 @@ def create_runner(context: RunnerContext) -> EquipmentRunner:
         from auto_fmu.equipment.cooling_tower import CoolingTowerRunner
 
         return CoolingTowerRunner(context)
+    if context.device.get("runner") == "heat_exchanger_external":
+        from auto_fmu.equipment.heat_exchanger import HeatExchangerRunner
+
+        return HeatExchangerRunner(context)
     runner = RUNNERS.get(context.equipment_type, FixtureRunner)
     return runner(context)

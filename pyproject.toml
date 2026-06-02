@@ -18,5 +18,8 @@ dependencies = [
 [project.scripts]
 auto-fmu = "auto_fmu.cli:entrypoint"
 
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
 [tool.setuptools.packages.find]
 where = ["src"]

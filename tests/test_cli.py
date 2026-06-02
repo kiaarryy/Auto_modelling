@@ -90,3 +90,14 @@ def test_scan_hygiene_rejects_fixed_archive_paths_in_core(tmp_path: Path) -> Non
     (source / "bad.py").write_text('PATH = "CT_Model/DATA/Site_A"\n', encoding="utf-8")
 
     assert main(["scan-hygiene", "--root", str(tmp_path)]) == 1
+
+
+def test_scan_hygiene_rejects_public_absolute_paths_and_local_yaml(tmp_path: Path) -> None:
+    docs = tmp_path / "docs"
+    configs = tmp_path / "configs"
+    docs.mkdir()
+    configs.mkdir()
+    (docs / "bad.md").write_text("archive: E:/private/archive\n", encoding="utf-8")
+    (configs / "project.local.yaml").write_text("outputs_dir: outputs\n", encoding="utf-8")
+
+    assert main(["scan-hygiene", "--root", str(tmp_path)]) == 1
